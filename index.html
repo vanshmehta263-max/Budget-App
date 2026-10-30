@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Budget Buddy 2.0</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="app-shell">
+
+  <aside class="sidebar" id="sidebar">
+    <a class="brand" href="#">
+      <span class="brand-mark">₹</span>
+      <span>Budget<span class="brand-light">Buddy</span>
+        <small>PERSONAL FINANCE</small>
+      </span>
+    </a>
+
+    <div class="side-label">MENU</div>
+
+    <nav>
+      <a class="nav-link active" href="#overview">▦ Overview</a>
+      <a class="nav-link" href="#transactions">↕ Transactions</a>
+      <a class="nav-link" href="#budgets">◷ Budgets</a>
+      <a class="nav-link" href="#goals">◎ Savings goals</a>
+    </nav>
+
+    
+  </aside>
+
+  <main class="main-content">
+
+    <header class="topbar">
+      <button class="menu-btn" id="menuBtn">☰</button>
+
+      <div>
+        <div class="eyebrow">PERSONAL FINANCE DASHBOARD</div>
+        <h1>Good money habits start here.</h1>
+        <p class="subheading">
+          Your financial snapshot for
+          <span id="todayLabel"></span>
+        </p>
+      </div>
+
+      <div class="top-actions">
+        <button class="icon-btn" id="themeBtn">☾</button>
+        <div class="avatar">BB</div>
+      </div>
+    </header>
+
+    <!-- SUMMARY CARDS -->
+    <section class="summary-grid" id="overview">
+
+      <article class="summary-card balance-card">
+        <div class="card-top">
+          <span>Total balance</span>
+          <span class="card-icon">₹</span>
+        </div>
+        <div class="amount" id="balance">₹0</div>
+        <div class="card-foot">Income minus expenses</div>
+        <div class="balance-decoration"></div>
+      </article>
+
+      <article class="summary-card">
+        <div class="card-top">
+          <span>Total income</span>
+          <span class="card-icon green">↙</span>
+        </div>
+        <div class="amount" id="income">₹0</div>
+        <div class="card-foot">Money received</div>
+      </article>
+
+      <article class="summary-card">
+        <div class="card-top">
+          <span>Total expenses</span>
+          <span class="card-icon pink">↗</span>
+        </div>
+        <div class="amount" id="expense">₹0</div>
+        <div class="card-foot">Money spent</div>
+      </article>
+
+      <article class="summary-card">
+        <div class="card-top">
+          <span>Saving rate</span>
+          <span class="card-icon purple">％</span>
+        </div>
+        <div class="amount" id="savingRate">0%</div>
+        <div class="card-foot">Of your total income</div>
+      </article>
+
+    </section>
+
+    <!-- CHARTS -->
+    <section class="content-grid">
+
+      <article class="panel">
+        <div class="panel-heading">
+          <div>
+            <h2>Spending overview</h2>
+            <p>Your income and expenses at a glance</p>
+          </div>
+          <span class="pill">Last 6 months</span>
+        </div>
+
+        <div class="chart-wrap">
+          <canvas id="spendingChart"></canvas>
+          <div id="chartEmpty" class="chart-empty">
+            Add transactions to see your chart.
+          </div>
+        </div>
+
+        <div class="chart-legend">
+          <span><i class="dot income-dot"></i> Income</span>
+          <span><i class="dot expense-dot"></i> Expenses</span>
+        </div>
+      </article>
+
+      <article class="panel">
+        <div class="panel-heading">
+          <div>
+            <h2>Where money goes</h2>
+            <p>Expense breakdown by category</p>
+          </div>
+        </div>
+
+        <div id="categoryList" class="category-list">
+          <div class="empty-small">Your category breakdown will appear here.</div>
+        </div>
+      </article>
+
+    </section>
+
+    <!-- BUDGET AND SAVINGS -->
+    <section class="content-grid lower-grid">
+
+      <article class="panel" id="budgets">
+        <div class="panel-heading">
+          <div>
+            <h2>Monthly budget</h2>
+            <p>Keep your spending on track</p>
+          </div>
+          <button class="text-btn" id="editBudgetBtn">Edit budget ↗</button>
+        </div>
+
+        <div class="budget-number">
+          <strong id="budgetSpent">₹0</strong>
+          <span>of <span id="budgetLimit">₹10,000</span> used</span>
+        </div>
+
+        <div class="progress-track">
+          <div id="budgetProgress" class="progress-fill"></div>
+        </div>
+
+        <div class="budget-foot">
+          <span id="budgetRemaining">₹10,000 remaining</span>
+          <span id="budgetPercent">0%</span>
+        </div>
+
+        <div class="budget-tip">
+          ✦ <span id="budgetTip">Make every rupee count.</span>
+        </div>
+      </article>
+
+      <article class="panel goal-panel" id="goals">
+        <div class="panel-heading">
+          <div>
+            <h2>Savings goal</h2>
+            <p>Your next milestone</p>
+          </div>
+          <span class="goal-icon">◎</span>
+        </div>
+
+        <div class="goal-title">
+          <strong id="goalName">New laptop</strong>
+          <span id="goalPercent">0%</span>
+        </div>
+
+        <div class="progress-track">
+          <div id="goalProgress" class="progress-fill goal-fill"></div>
+        </div>
+
+        <div class="budget-foot">
+          <span id="goalSaved">₹0 saved</span>
+          <span id="goalTarget">Target ₹50,000</span>
+        </div>
+
+        <button class="outline-btn full-btn" id="editGoalBtn">
+          Update savings goal
+        </button>
+      </article>
+
+    </section>
+
+    <!-- TRANSACTIONS -->
+    <section class="panel transactions-panel" id="transactions">
+
+      <div class="panel-heading transaction-heading">
+        <div>
+          <h2>Recent transactions</h2>
+          <p>Track where your money moves</p>
+        </div>
+
+        <button class="primary-btn" id="openAdd">
+          ＋ Add transaction
+        </button>
+      </div>
+
+      <div class="toolbar">
+        <input id="searchInput" type="search"
+          placeholder="⌕ Search transactions...">
+
+        <select id="filterType">
+          <option value="all">All types</option>
+          <option value="income">Income</option>
+          <option value="expense">Expenses</option>
+        </select>
+
+        <select id="filterCategory">
+          <option value="all">All categories</option>
+          <option>Food</option>
+          <option>Shopping</option>
+          <option>Travel</option>
+          <option>Bills</option>
+          <option>Education</option>
+          <option>Health</option>
+          <option>Salary</option>
+          <option>Other</option>
+        </select>
+
+        <button class="outline-btn" id="exportBtn">
+          ↓ Export CSV
+        </button>
+      </div>
+
+      <div class="table-scroll">
+        <table>
+          <thead>
+            <tr>
+              <th>TRANSACTION</th>
+              <th>CATEGORY</th>
+              <th>DATE</th>
+              <th>AMOUNT</th>
+              <th>ACTION</th>
+            </tr>
+          </thead>
+
+          <tbody id="transactionRows">
+            <tr>
+              <td colspan="5" class="empty-row">
+                No transactions yet. Add your first one!
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="table-footer">
+        <span id="transactionCount">0 transactions</span>
+        <span>Amounts in Indian Rupees (₹)</span>
+      </div>
+
+    </section>
+
+    <footer>
+      © 2026 Budget Buddy · Your money, your control.
+      <span>Data is saved on this device.</span>
+    </footer>
+
+  </main>
+</div>
+
+<!-- ADD / EDIT TRANSACTION -->
+<dialog id="transactionDialog" class="modal">
+  <form id="transactionForm" method="dialog">
+
+    <div class="modal-head">
+      <div>
+        <div class="eyebrow">YOUR MONEY, YOUR WAY</div>
+        <h2 id="formTitle">Add transaction</h2>
+      </div>
+      <button type="button" class="close-btn"
+        data-close="transactionDialog">×</button>
+    </div>
+
+    <input type="hidden" id="editId">
+
+    <label>
+      Transaction name
+      <input id="txName" required maxlength="60"
+        placeholder="e.g. Grocery shopping">
+    </label>
+
+    <div class="form-row">
+      <label>
+        Amount (₹)
+        <input id="txAmount" type="number"
+          min="0.01" step="0.01" required>
+      </label>
+
+      <label>
+        Type
+        <select id="txType">
+          <option value="expense">Expense</option>
+          <option value="income">Income</option>
+        </select>
+      </label>
+    </div>
+
+    <div class="form-row">
+      <label>
+        Category
+        <select id="txCategory">
+          <option>Food</option>
+          <option>Shopping</option>
+          <option>Travel</option>
+          <option>Bills</option>
+          <option>Education</option>
+          <option>Health</option>
+          <option>Salary</option>
+          <option>Other</option>
+        </select>
+      </label>
+
+      <label>
+        Date
+        <input id="txDate" type="date" required>
+      </label>
+    </div>
+
+    <button class="primary-btn full-btn" type="submit">
+      Save transaction
+    </button>
+
+  </form>
+</dialog>
+
+<!-- BUDGET DIALOG -->
+<dialog id="budgetDialog" class="modal">
+  <form id="budgetForm" method="dialog">
+    <div class="modal-head">
+      <h2>Set monthly budget</h2>
+      <button type="button" class="close-btn"
+        data-close="budgetDialog">×</button>
+    </div>
+
+    <label>
+      Budget amount (₹)
+      <input id="budgetInput" type="number" min="1" required>
+    </label>
+
+    <button class="primary-btn full-btn">Save budget</button>
+  </form>
+</dialog>
+
+<!-- SAVINGS GOAL DIALOG -->
+<dialog id="goalDialog" class="modal">
+  <form id="goalForm" method="dialog">
+    <div class="modal-head">
+      <h2>Update savings goal</h2>
+      <button type="button" class="close-btn"
+        data-close="goalDialog">×</button>
+    </div>
+
+    <label>
+      Goal name
+      <input id="goalNameInput" required>
+    </label>
+
+    <label>
+      Target amount (₹)
+      <input id="goalTargetInput" type="number" min="1" required>
+    </label>
+
+    <label>
+      Amount saved (₹)
+      <input id="goalSavedInput" type="number" min="0" required>
+    </label>
+
+    <button class="primary-btn full-btn">Save goal</button>
+  </form>
+</dialog>
+
+<div id="toast" class="toast"></div>
+
+<script src="script.js"></script>
+</body>
+</html>
